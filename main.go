@@ -101,7 +101,7 @@ func main() {
 				Activities: []*discordgo.Activity{&activity},
 				Status:     "online",
 			})
-			time.Sleep(10 * time.Second)
+			time.Sleep(1 * time.Minute)
 		}
 	}()
 

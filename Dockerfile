@@ -31,7 +31,7 @@ RUN GOOS=linux go build ./main.go
 ##### Stage 2 #####
 
 ### Define the running image
-FROM scratch
+FROM scratch as runner
 
 ### Alternatively to 'FROM scratch', use 'alpine':
 # FROM alpine:3.13.1
