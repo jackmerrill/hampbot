@@ -21,16 +21,18 @@ var (
 	BotGuild = "936651575684915201"
 
 	// HampAPI is the URL to the hamp API.
-	// HampAPI = "https://api.hamp.sh"
-	HampAPI = "http://localhost:1323"
+	HampAPI     = "https://api.hamp.sh"
+	HampAPIHost = "api.hamp.sh"
+	// HampAPIHost = "localhost:1323"
+	// HampAPI = "http://localhost:1323"
 )
 
 var (
-	GroupUtil = "Util"
-	GroupFun  = "Fun"
-	GroupInfo = "Info"
-	GroupMod  = "Moderation"
-	GroupDev  = "Dev"
+	GroupUtil        = "Util"
+	GroupFun         = "Fun"
+	GroupInfo        = "Info"
+	GroupMod         = "Moderation"
+	GroupStudentLife = "Student Life"
 )
 
 var Statuses = []discordgo.Activity{

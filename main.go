@@ -76,6 +76,18 @@ func main() {
 	handler.Register(&studentlife.PVTA{})
 	log.Debug("Registered PVTA command")
 
+	handler.Register(&studentlife.Abbreviation{})
+	log.Debug("Registered abbreviation command")
+
+	err = studentlife.InitAll(session)
+	if err != nil {
+		log.Error("Failed to initialize laundry notify- skipping.")
+	} else {
+		handler.Register(&studentlife.LaundryNotify{})
+
+	}
+	log.Debug("Registered laundry notify command")
+
 	log.Info("Registered all commands")
 
 	log.Info("Setting up activities...")

@@ -21,6 +21,7 @@ require (
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/jackmerrill/hamp-api v0.0.0-20230818235104-8d222c9674c9 // indirect
 	github.com/jackmerrill/pvta-go v0.0.0-20220912020258-36dee8883b6e // indirect
+	github.com/klauspost/compress v1.10.3 // indirect
 	github.com/labstack/echo/v4 v4.9.1 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
@@ -42,4 +43,5 @@ require (
 	golang.org/x/net v0.14.0 // indirect
 	golang.org/x/sys v0.11.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
+	nhooyr.io/websocket v1.8.7 // indirect
 )

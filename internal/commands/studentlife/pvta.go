@@ -34,7 +34,7 @@ func (c *PVTA) GetHelp() string {
 }
 
 func (c *PVTA) GetGroup() string {
-	return config.GroupUtil
+	return config.GroupStudentLife
 }
 
 func (c *PVTA) GetDomainName() string {
@@ -60,6 +60,10 @@ func getRouteByShortName(shortName string) (*pvtago.RouteDetail, error) {
 
 	for _, route := range routes {
 		if route.ShortName == shortName {
+			return &route, nil
+		}
+
+		if route.RouteAbbreviation == shortName {
 			return &route, nil
 		}
 	}
@@ -102,10 +106,20 @@ func (c *PVTA) Exec(ctx shireikan.Context) error {
 			return err
 		}
 
+		if route == nil {
+			ctx.ReplyEmbed(embed.NewErrorEmbed(ctx).SetTitle("Error").SetDescription("The route you specified does not exist.").MessageEmbed)
+			return nil
+		}
+
 		vehicles, err := client.GetVehiclesForRoute(route.RouteID)
 
 		if err != nil {
 			return err
+		}
+
+		if len(vehicles) == 0 {
+			ctx.ReplyEmbed(embed.NewErrorEmbed(ctx).SetTitle("Error").SetDescription("There are no vehicles on this route.").MessageEmbed)
+			return nil
 		}
 
 		e := embed.NewSuccessEmbed(ctx).SetTitle(":bus: PVTA Route Details").SetDescription(fmt.Sprintf("**Route:** %s\n**Name:** %s", route.ShortName, route.LongName))
