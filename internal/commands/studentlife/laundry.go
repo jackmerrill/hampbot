@@ -59,7 +59,7 @@ func (c *Laundry) GetGroup() string {
 }
 
 func (c *Laundry) GetDomainName() string {
-	return "hamp.util.laundry"
+	return "hamp.studentlife.laundry"
 }
 
 func (c *Laundry) GetSubPermissionRules() []shireikan.SubPermission {

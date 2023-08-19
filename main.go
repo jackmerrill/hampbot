@@ -73,7 +73,25 @@ func main() {
 	handler.Register(&fun.Dalle{})
 	log.Debug("Registered dalle command")
 
+	handler.Register(&studentlife.PVTA{})
+	log.Debug("Registered PVTA command")
+
 	log.Info("Registered all commands")
+
+	log.Info("Setting up activities...")
+
+	activities := config.Statuses
+
+	go func() {
+		for {
+			activity := activities[rand.Intn(len(activities))]
+			session.UpdateStatusComplex(discordgo.UpdateStatusData{
+				Activities: []*discordgo.Activity{&activity},
+				Status:     "online",
+			})
+			time.Sleep(10 * time.Second)
+		}
+	}()
 
 	handler.Setup(session)
 

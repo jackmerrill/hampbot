@@ -2,7 +2,10 @@ package config
 
 import (
 	"fmt"
+	"strconv"
 	"time"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 var (
@@ -30,6 +33,29 @@ var (
 	GroupDev  = "Dev"
 )
 
+var Statuses = []discordgo.Activity{
+	{
+		Name: "with frogs",
+		Type: discordgo.ActivityTypeGame,
+	},
+	{
+		Name: fmt.Sprintf("PVTA Simulator %d", time.Now().Year()),
+		Type: discordgo.ActivityTypeGame,
+	},
+	{
+		Name: "Stray",
+		Type: discordgo.ActivityTypeGame,
+	},
+	{
+		Name: "the Dakin fire alarm",
+		Type: discordgo.ActivityTypeListening,
+	},
+	{
+		Name: "at the Roos-Rhode house",
+		Type: discordgo.ActivityTypeGame,
+	},
+}
+
 func ConvertTimestampToDiscordTimestamp(t time.Time) string {
 	// format: <t:1234567890> where 1234567890 is the unix timestamp
 
@@ -44,4 +70,33 @@ func ConvertTimestampToDiscordTimestampWithFormat(t time.Time, format string) st
 	u := t.Unix()
 
 	return "<t:" + fmt.Sprint(u) + ":" + format + ">"
+}
+
+type Hex string
+
+type RGB struct {
+	Red   uint8
+	Green uint8
+	Blue  uint8
+}
+
+func (h Hex) toRGB() (RGB, error) {
+	return Hex2RGB(h)
+}
+
+func Hex2RGB(hex Hex) (RGB, error) {
+	var rgb RGB
+	values, err := strconv.ParseUint(string(hex), 16, 32)
+
+	if err != nil {
+		return RGB{}, err
+	}
+
+	rgb = RGB{
+		Red:   uint8(values >> 16),
+		Green: uint8((values >> 8) & 0xFF),
+		Blue:  uint8(values & 0xFF),
+	}
+
+	return rgb, nil
 }
