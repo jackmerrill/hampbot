@@ -1,0 +1,62 @@
+{
+  // Place your hampbot workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+  // Placeholders with the same ids are connected.
+  // Example:
+  // "Print to console": {
+  // 	"scope": "javascript,typescript",
+  // 	"prefix": "log",
+  // 	"body": [
+  // 		"console.log('$1');",
+  // 		"$2"
+  // 	],
+  // 	"description": "Log output to console"
+  // }
+  "Command": {
+    "prefix": "command",
+    "body": [
+      "import (",
+      "    \"github.com/jackmerrill/hampbot/internal/utils/config\"",
+      "    \"github.com/zekroTJA/shireikan\"",
+      ")",
+      "",
+      "type ${1:CommandName} struct {",
+      "}",
+      "",
+      "func (c *${1:CommandName}) GetInvokes() []string {",
+      "    return []string{\"${1}\"}",
+      "}",
+      "",
+      "func (c *${1:CommandName}) GetDescription() string {",
+      "    return \"${1:CommandName} description\"",
+      "}",
+      "",
+      "func (c *${1:CommandName}) GetHelp() string {",
+      "    return \"`${1}` - `${1}`\"",
+      "}",
+      "",
+      "func (c *${1:CommandName}) GetGroup() string {",
+      "    return config.GroupUtil",
+      "}",
+      "",
+      "func (c *${1:CommandName}) GetDomainName() string {",
+      "    return \"hamp.util.${1}\"",
+      "}",
+      "",
+      "func (c *${1:CommandName}) GetSubPermissionRules() []shireikan.SubPermission {",
+      "    return nil",
+      "}",
+      "func (c *${1:CommandName}) IsExecutableInDMChannels() bool {",
+      "    return true",
+      "}",
+      "",
+      "func (c *${1:CommandName}) Exec(ctx shireikan.Context) error {",
+      "    return nil",
+      "}"
+    ],
+    "description": "Create a new command"
+  }
+}
