@@ -258,6 +258,4 @@ func (c *PVTA) Exec(ctx shireikan.Context) error {
 		return nil
 
 	}
-
-	return nil
 }
