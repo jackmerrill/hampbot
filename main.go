@@ -11,6 +11,7 @@ import (
 	"github.com/jackmerrill/hampbot/internal/commands/fun"
 	studentlife "github.com/jackmerrill/hampbot/internal/commands/studentlife"
 	util "github.com/jackmerrill/hampbot/internal/commands/util"
+	"github.com/jackmerrill/hampbot/internal/utils/config"
 	"github.com/zekroTJA/shireikan"
 
 	"github.com/charmbracelet/log"
@@ -38,7 +39,7 @@ func main() {
 	}()
 
 	handler := shireikan.New(&shireikan.Config{
-		GeneralPrefix:         ">",
+		GeneralPrefix:         config.BotPrefix,
 		AllowBots:             false,
 		AllowDM:               true,
 		ExecuteOnEdit:         true,
@@ -68,6 +69,9 @@ func main() {
 
 	handler.Register(&fun.XKCD{})
 	log.Debug("Registered xkcd command")
+
+	handler.Register(&fun.Dalle{})
+	log.Debug("Registered dalle command")
 
 	log.Info("Registered all commands")
 
