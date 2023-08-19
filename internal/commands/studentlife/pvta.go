@@ -6,6 +6,7 @@ import (
 	"image/color"
 	"image/png"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
@@ -173,6 +174,89 @@ func (c *PVTA) Exec(ctx shireikan.Context) error {
 		}
 
 		return nil
+	} else {
+		id, err := strconv.ParseInt(vehicle, 10, 64)
+
+		if err != nil {
+			ctx.ReplyEmbed(embed.NewErrorEmbed(ctx).SetTitle("Error").SetDescription("An error occured while parsing the vehicle ID.").AddField("Error", err.Error(), false).MessageEmbed)
+			return err
+		}
+
+		v, err := client.GetVehicle(id)
+
+		if err != nil {
+			return err
+		}
+
+		route, err := client.GetRoute(v.RouteID)
+
+		if err != nil {
+			return err
+		}
+
+		e := embed.NewSuccessEmbed(ctx).SetTitle(":bus: Vehicle Details").SetDescription(fmt.Sprintf(":round_pushpin: **Destination:** %s (%s)\n:globe_with_meridians: **Lat/Long:** `%f` `%f`", v.Destination, v.Direction, v.Latitude, v.Longitude))
+
+		tileProvider := &sm.TileProvider{
+			Name:        "thunderforest-transit",
+			Attribution: "Maps (c) Thundeforest; Data (c) OSM and contributors, ODbL",
+			TileSize:    256,
+			URLPattern:  "https://%[1]s.tile.thunderforest.com/transport/%[2]d/%[3]d/%[4]d.png?apikey=" + os.Getenv("TF_API_KEY"),
+			Shards:      []string{"a", "b", "c"},
+		}
+
+		mapCtx := sm.NewContext()
+		mapCtx.SetSize(600, 400)
+		mapCtx.SetTileProvider(tileProvider)
+
+		rgb, err := config.Hex2RGB(config.Hex(route.Color))
+
+		if err != nil {
+			return err
+		}
+
+		mapCtx.AddObject(
+			sm.NewMarker(
+				s2.LatLngFromDegrees(v.Latitude, v.Longitude),
+				color.RGBA{R: rgb.Red, G: rgb.Green, B: rgb.Blue, A: 255},
+				16.0,
+			),
+		)
+
+		img, err := mapCtx.Render()
+
+		if err != nil {
+			return err
+		}
+
+		// convert to base64
+		buf := new(bytes.Buffer)
+
+		err = png.Encode(buf, img)
+
+		if err != nil {
+			return err
+		}
+
+		e.SetImage("attachment://map.png")
+
+		_, err = ctx.GetSession().ChannelMessageSendComplex(ctx.GetChannel().ID, &discordgo.MessageSend{
+			Embed:     e.MessageEmbed,
+			Reference: ctx.GetMessage().Reference(),
+			Files: []*discordgo.File{
+				{
+					Name:        "map.png",
+					ContentType: "image/png",
+					Reader:      buf,
+				},
+			},
+		})
+
+		if err != nil {
+			return err
+		}
+
+		return nil
+
 	}
 
 	return nil
