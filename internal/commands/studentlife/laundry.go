@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/bwmarrin/discordgo"
@@ -69,7 +70,7 @@ func (c *Laundry) IsExecutableInDMChannels() bool {
 }
 
 func (c *Laundry) Exec(ctx shireikan.Context) error {
-	building := ctx.GetArgs().Get(0)
+	building := ctx.GetArgs().Get(0).AsString()
 
 	if building == "" {
 		ctx.GetSession().ChannelMessageSendComplex(ctx.GetChannel().ID, &discordgo.MessageSend{
@@ -78,6 +79,8 @@ func (c *Laundry) Exec(ctx shireikan.Context) error {
 		})
 		return nil
 	}
+
+	building = strings.ToLower(building)
 
 	if building != "dakin" && building != "merrill" && building != "prescott" && building != "enfield" {
 		ctx.GetSession().ChannelMessageSendComplex(ctx.GetChannel().ID, &discordgo.MessageSend{

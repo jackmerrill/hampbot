@@ -1,9 +1,11 @@
 package main
 
 import (
+	"math/rand"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/jackmerrill/hampbot/internal/commands/fun"
@@ -47,6 +49,9 @@ func main() {
 		},
 	})
 
+	log.Info("Initializing Random")
+	rand.Seed(time.Now().UnixNano())
+
 	log.Info("Registering commands...")
 
 	handler.Register(&util.Ping{})
@@ -60,6 +65,11 @@ func main() {
 
 	handler.Register(&fun.AI{})
 	log.Debug("Registered ai command")
+
+	handler.Register(&fun.XKCD{})
+	log.Debug("Registered xkcd command")
+
+	log.Info("Registered all commands")
 
 	handler.Setup(session)
 
