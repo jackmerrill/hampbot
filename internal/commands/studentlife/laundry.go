@@ -24,7 +24,7 @@ type Machine struct {
 	Name          string      `json:"name"`
 	Type          MachineType `json:"type"`
 	Status        string      `json:"status"`
-	Time          *time.Time  `json:"time"`
+	Time          *string     `json:"time"`
 	EstimatedTime *time.Time  `json:"estimatedTime"`
 }
 

@@ -12,6 +12,7 @@ import (
 	studentlife "github.com/jackmerrill/hampbot/internal/commands/studentlife"
 	util "github.com/jackmerrill/hampbot/internal/commands/util"
 	"github.com/jackmerrill/hampbot/internal/utils/config"
+	"github.com/jackmerrill/hampbot/internal/utils/embed"
 	"github.com/zekroTJA/shireikan"
 
 	"github.com/charmbracelet/log"
@@ -46,6 +47,10 @@ func main() {
 		InvokeToLower:         true,
 		UseDefaultHelpCommand: true,
 		OnError: func(ctx shireikan.Context, typ shireikan.ErrorType, err error) {
+			ctx.GetSession().ChannelMessageSendComplex(ctx.GetChannel().ID, &discordgo.MessageSend{
+				Embed:     embed.NewErrorEmbed(ctx).SetTitle("Error").SetDescription(err.Error()).MessageEmbed,
+				Reference: ctx.GetMessage().Reference(),
+			})
 			log.Error(err)
 		},
 	})
