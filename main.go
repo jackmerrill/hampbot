@@ -47,11 +47,13 @@ func main() {
 		InvokeToLower:         true,
 		UseDefaultHelpCommand: true,
 		OnError: func(ctx shireikan.Context, typ shireikan.ErrorType, err error) {
-			ctx.GetSession().ChannelMessageSendComplex(ctx.GetChannel().ID, &discordgo.MessageSend{
-				Embed:     embed.NewErrorEmbed(ctx).SetTitle("Error").SetDescription(err.Error()).MessageEmbed,
-				Reference: ctx.GetMessage().Reference(),
-			})
-			log.Error(err)
+			if typ != shireikan.ErrTypCommandNotFound {
+				ctx.GetSession().ChannelMessageSendComplex(ctx.GetChannel().ID, &discordgo.MessageSend{
+					Embed:     embed.NewErrorEmbed(ctx).SetTitle("Error").SetDescription(err.Error()).MessageEmbed,
+					Reference: ctx.GetMessage().Reference(),
+				})
+				log.Error(err)
+			}
 		},
 	})
 
@@ -89,9 +91,12 @@ func main() {
 		log.Error("Failed to initialize laundry notify- skipping.")
 	} else {
 		handler.Register(&studentlife.LaundryNotify{})
-
 	}
+
 	log.Debug("Registered laundry notify command")
+
+	handler.Register(&studentlife.Where{})
+	log.Debug("Registered where command")
 
 	log.Info("Registered all commands")
 

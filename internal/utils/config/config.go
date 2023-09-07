@@ -2,10 +2,12 @@ package config
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 	"time"
 
 	"github.com/bwmarrin/discordgo"
+	geojson "github.com/paulmach/go.geojson"
 )
 
 var (
@@ -15,7 +17,7 @@ var (
 
 var (
 	// BotPrefix is the prefix used for bot commands.
-	BotPrefix = "!"
+	BotPrefix = ">>"
 
 	// BotGuild is the ID of the guild the bot is running on.
 	BotGuild = "936651575684915201"
@@ -101,4 +103,74 @@ func Hex2RGB(hex Hex) (RGB, error) {
 	}
 
 	return rgb, nil
+}
+
+func long2tile(lon float64, zoom int) int {
+	return int(math.Floor((lon + 180.0) / 360.0 * math.Pow(2.0, float64(zoom))))
+}
+
+func lat2tile(lat float64, zoom int) int {
+	return int(math.Floor((1.0 - math.Log(math.Tan(lat*math.Pi/180.0)+1.0/math.Cos(lat*math.Pi/180.0))/math.Pi) / 2.0 * math.Pow(2.0, float64(zoom))))
+}
+
+func GetTileNumbers(lat, long float64, zoom int) (uint64, uint64) {
+	return uint64(long2tile(long, zoom)), uint64(lat2tile(lat, zoom))
+}
+
+func decodeToken(bytes []byte) (pos int, value float64) {
+	var token int64 = 0
+	var shift uint = 0
+	var result float64
+	var factor float64 = 1e5
+
+	for i, v := range bytes {
+		current := int64(v) - 63
+		token |= (current & 0x1f) << uint(shift)
+		shift += 5
+
+		if current&0x20 == 0 {
+			pos = i + 1
+
+			if token&1 != 0 {
+				result = float64(^(token >> 1))
+			} else {
+				result = float64(token >> 1)
+			}
+
+			value = result / factor
+			return
+		}
+	}
+
+	pos = 0
+	return
+}
+
+func DecodePolyline(bytes []byte) []byte {
+
+	fc := geojson.NewFeatureCollection()
+	coords := make([][]float64, 0)
+	var pos int = 0
+	var lat, lng float64
+
+	for pos < len(bytes) {
+		current, current_lat := decodeToken(bytes[pos:len(bytes)])
+		pos += current
+		lat += current_lat
+
+		current, current_lng := decodeToken(bytes[pos:len(bytes)])
+		pos += current
+		lng += current_lng
+
+		coord := []float64{lng, lat}
+		coords = append(coords, coord)
+	}
+
+	line := geojson.NewLineStringFeature(coords)
+
+	fc.AddFeature(line)
+
+	json, _ := fc.MarshalJSON()
+
+	return json
 }
