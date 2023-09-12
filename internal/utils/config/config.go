@@ -37,6 +37,10 @@ var (
 	GroupStudentLife = "Student Life"
 )
 
+type LoggedMessages = map[string]discordgo.Message
+
+var MessageLog LoggedMessages = make(LoggedMessages)
+
 var Statuses = []discordgo.Activity{
 	{
 		Name: "with frogs",

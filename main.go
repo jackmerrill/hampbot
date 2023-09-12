@@ -11,6 +11,7 @@ import (
 	"github.com/jackmerrill/hampbot/internal/commands/fun"
 	studentlife "github.com/jackmerrill/hampbot/internal/commands/studentlife"
 	util "github.com/jackmerrill/hampbot/internal/commands/util"
+	"github.com/jackmerrill/hampbot/internal/listeners"
 	"github.com/jackmerrill/hampbot/internal/utils/config"
 	"github.com/jackmerrill/hampbot/internal/utils/embed"
 	"github.com/zekroTJA/shireikan"
@@ -114,6 +115,17 @@ func main() {
 			time.Sleep(1 * time.Minute)
 		}
 	}()
+
+	log.Info("Setting up listeners...")
+
+	deleteHandler := &listeners.MessageDeleteListener{}
+	editHandler := &listeners.MessageEditListener{}
+
+	session.AddHandler(func(s *discordgo.Session, e *discordgo.MessageCreate) {
+		config.MessageLog[e.ID] = *e.Message
+	})
+	session.AddHandler(deleteHandler.Exec)
+	session.AddHandler(editHandler.Exec)
 
 	handler.Setup(session)
 
