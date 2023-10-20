@@ -24,48 +24,48 @@ import (
 type Location map[string][]float64
 
 var LOCATIONS = Location{
-	"^(kern|\"kern kafe\"|\"kern cafe\"|\"kern center\"|\"r\\.w\\. kern center\"|\"rw kern center\"|admissions|\"financial aid\"|finaid)$": []float64{42.325490, -72.530425},
-	"^(bridge|\"bridge cafe\"|the bridge)$": []float64{42.32560055268511, -72.53171782489403},
-	"^(rcc|\"robert crown center\"|gym)$":   []float64{42.3259021736783, -72.53138568980566},
-	"^(library|\"harold f. johnson library center\"|\"mail room\"|\"post office\"|hampstore|\"hamp store\"|\"campus store\"|duplications|it|\"art gallery\"|\"hampshire college art gallery\"|sparc)$": []float64{42.325503815980404, -72.53234665636477},
-	"^(cole|\"the cole\"|\"cole science center\"|csc)$": []float64{42.325005132910455, -72.53264274547023},
-	"^(\"mixed nuts\")$":             []float64{42.32438520935449, -72.53314741618625},
-	"^(prescott)$":                   []float64{42.32370121438042, -72.53400755941487},
-	"^(\"prescott tavern\"|tavern)$": []float64{42.32330551141666, -72.53410313088433},
-	"^(c4d|\"center for design\"|\"lemelson building\")$": []float64{42.323653164859145, -72.53277277596145},
-	"^(\"central records\"|casa)$":                        []float64{42.32400565840685, -72.53267685200223},
-	"^(\"arts barn\"|\"art barn\"|art)$":                  []float64{42.323484930985096, -72.53270230871183},
-	"^(jlc|\"jerome liebling center\")$":                  []float64{42.32343637951593, -72.53186281901529},
-	"^(\"solar canopy\")$":                                []float64{42.3231160046793, -72.5323111913881},
-	"^(\"music and dance building\"|mdb|music|dance)$":    []float64{42.32296880488658, -72.53257385728799},
-	"^(ash|\"adele simmons hall\")$":                      []float64{42.32286199484466, -72.53189407069387},
-	"^(carle|\"the carle\"|\"the eric carle museum\"|\"the eric carle museum of picture book art\")$": []float64{42.32109682435725, -72.53332586596198},
-	"^(elc|early learning center)$":                                  []float64{42.32130800774271, -72.53485513102083},
-	"^(\"multisport center\"|multisport|weight room|msc)$":           []float64{42.32138500151223, -72.53614340300827},
-	"^(\"dakin student life center\"|dslc)$":                         []float64{42.32313128927387, -72.53022445236283},
-	"^(\"merrill student life center\"|mslc)$":                       []float64{42.32347857352905, -72.53034306624653},
-	"^(\"merrill pavillion\"|pavillion)$":                            []float64{42.323322471247494, -72.53030510980373},
-	"^(dakin|hell|\"dakin house\")$":                                 []float64{42.322597743840625, -72.53027825479788},
-	"^(merrill|\"merrill house\")$":                                  []float64{42.323732718386175, -72.52977892147766},
-	"^(\"dining commons\"|dc|saga)$":                                 []float64{42.32319356233955, -72.52917576638322},
-	"^(\"yiddish book center\"|ybc)$":                                []float64{42.32175452980474, -72.5276151025249},
-	"^(\"franklin patterson hall\"|fph)$":                            []float64{42.324221538083805, -72.5306271019939},
-	"^(\"the yurt\"|yurt|radio)$":                                    []float64{42.324071744881785, -72.53136719263956},
-	"^(enfield|\"enfield mods\"|\"enfield house\")$":                 []float64{42.32646094303269, -72.52929170510444},
-	"^(\"wellness center\")$":                                        []float64{42.32709812095117, -72.5291661607627},
-	"^(\"spiritual life center\"|slc)$":                              []float64{42.32705614551552, -72.52973716786117},
-	"^(edh|\"emily dickinson hall\"|theatre|theater)$":               []float64{42.327652942240896, -72.53062317253445},
-	"^(\"writing center\")$":                                         []float64{42.32780110830725, -72.53112929268784},
-	"^(greenwich|\"greenwich mods\"|\"greenwich house\")$":           []float64{42.32748781455265, -72.53192281696715},
-	"^(soccer|\"soccer field\"|\"hampshire college soccer field\")$": []float64{42.32651025401564, -72.53454675256307},
-	"^(\"cultural center\"|cc|\"lebron-wiggins-pran cultural center\"|\"Lebrón-Wiggins-Pran Cultural Center\")$": []float64{42.32487763771362, -72.5339769868106},
-	"^(basketball|\"basketball courts\"|\"basketball court\"|\"tennis courts\"|\"tennis court\")$":               []float64{42.32557748709811, -72.53720546848393},
-	"^(\"red barn\"|\"the red barn\"|barn)$":                                                     []float64{42.32642633315529, -72.52551730246282},
-	"^(\"the hitchcock center\"|\"hitchcock center\"|\"hitchcock center for the environment\")$": []float64{42.32771760017527, -72.52570886249646},
-	"^(csa|farm|\"hampshire college farm center\"|\"hampshire college farm\")$":                  []float64{42.32903799744424, -72.52573139895138},
-	"^(\"health services\"|\"hampshire college health services\")$":                              []float64{42.32666929509394, -72.52524995366625},
-	"^(atkins|\"atkins farms country market\")$":                                                 []float64{42.319355104827295, -72.52927125654328},
-	"^(res|\"the res\"|the reservoir|reservoir)$":                                                []float64{42.317285834368995, -72.5406219720153},
+	"^(kern|kern kafe|kern cafe|kern center|r\\.w\\. kern center|rw kern center|admissions|financial aid|finaid)$": []float64{42.325490, -72.530425},
+	"^(bridge|bridge cafe|the bridge)$": []float64{42.32560055268511, -72.53171782489403},
+	"^(rcc|robert crown center|gym)$":   []float64{42.3259021736783, -72.53138568980566},
+	"^(library|harold f. johnson library center|mail room|post office|hampstore|hamp store|campus store|duplications|it|art gallery|hampshire college art gallery|sparc|diagnostic center|media services)$": []float64{42.325503815980404, -72.53234665636477},
+	"^(cole|the cole|cole science center|csc)$": []float64{42.325005132910455, -72.53264274547023},
+	"^(mixed nuts)$":                               []float64{42.32438520935449, -72.53314741618625},
+	"^(prescott|cff|qcac)$":                        []float64{42.32370121438042, -72.53400755941487},
+	"^(prescott tavern|tavern)$":                   []float64{42.32330551141666, -72.53410313088433},
+	"^(c4d|center for design|lemelson building)$":  []float64{42.323653164859145, -72.53277277596145},
+	"^(central records|casa)$":                     []float64{42.32400565840685, -72.53267685200223},
+	"^(arts barn|art barn|art)$":                   []float64{42.323484930985096, -72.53270230871183},
+	"^(jlc|jerome liebling center)$":               []float64{42.32343637951593, -72.53186281901529},
+	"^(solar canopy)$":                             []float64{42.3231160046793, -72.5323111913881},
+	"^(music and dance building|mdb|music|dance)$": []float64{42.32296880488658, -72.53257385728799},
+	"^(ash|adele simmons hall)$":                   []float64{42.32286199484466, -72.53189407069387},
+	"^(carle|the carle|the eric carle museum|the eric carle museum of picture book art)$": []float64{42.32109682435725, -72.53332586596198},
+	"^(elc|early learning center)$":                          []float64{42.32130800774271, -72.53485513102083},
+	"^(multisport center|multisport|weight room|msc)$":       []float64{42.32138500151223, -72.53614340300827},
+	"^(dakin student life center|dslc)$":                     []float64{42.32313128927387, -72.53022445236283},
+	"^(merrill student life center|mslc)$":                   []float64{42.32347857352905, -72.53034306624653},
+	"^(merrill pavillion|pavillion)$":                        []float64{42.323322471247494, -72.53030510980373},
+	"^(dakin|hell|dakin house)$":                             []float64{42.322597743840625, -72.53027825479788},
+	"^(merrill|merrill house)$":                              []float64{42.323732718386175, -72.52977892147766},
+	"^(dining commons|dc|saga)$":                             []float64{42.32319356233955, -72.52917576638322},
+	"^(yiddish book center|ybc)$":                            []float64{42.32175452980474, -72.5276151025249},
+	"^(franklin patterson hall|fph)$":                        []float64{42.324221538083805, -72.5306271019939},
+	"^(the yurt|yurt|radio)$":                                []float64{42.324071744881785, -72.53136719263956},
+	"^(enfield|enfield mods|enfield house)$":                 []float64{42.32646094303269, -72.52929170510444},
+	"^(wellness center)$":                                    []float64{42.32709812095117, -72.5291661607627},
+	"^(spiritual life center|slc)$":                          []float64{42.32705614551552, -72.52973716786117},
+	"^(edh|emily dickinson hall|theatre|theater)$":           []float64{42.327652942240896, -72.53062317253445},
+	"^(writing center)$":                                     []float64{42.32780110830725, -72.53112929268784},
+	"^(greenwich|greenwich mods|greenwich house)$":           []float64{42.32748781455265, -72.53192281696715},
+	"^(soccer|soccer field|hampshire college soccer field)$": []float64{42.32651025401564, -72.53454675256307},
+	"^(cultural center|cc|lebron-wiggins-pran cultural center|Lebrón-Wiggins-Pran Cultural Center)$": []float64{42.32487763771362, -72.5339769868106},
+	"^(basketball|basketball courts|basketball court|tennis courts|tennis court)$":                   []float64{42.32557748709811, -72.53720546848393},
+	"^(red barn|the red barn|barn)$": []float64{42.32642633315529, -72.52551730246282},
+	"^(the hitchcock center|hitchcock center|hitchcock center for the environment)$": []float64{42.32771760017527, -72.52570886249646},
+	"^(csa|farm|hampshire college farm center|hampshire college farm)$":              []float64{42.32903799744424, -72.52573139895138},
+	"^(health services|hampshire college health services)$":                          []float64{42.32666929509394, -72.52524995366625},
+	"^(atkins|atkins farms country market)$":                                         []float64{42.319355104827295, -72.52927125654328},
+	"^(res|the res|the reservoir|reservoir)$":                                        []float64{42.317285834368995, -72.5406219720153},
 }
 
 type Where struct {
@@ -108,7 +108,7 @@ func (c *Where) Exec(ctx shireikan.Context) error {
 
 		e.SetTitle("Buildings")
 
-		desc := ""
+		desc := "*Places with spaces must be quoted*\n\nPlaces:"
 		locs := []string{}
 
 		for regex := range LOCATIONS {
@@ -134,8 +134,11 @@ func (c *Where) Exec(ctx shireikan.Context) error {
 		return err
 	}
 
-	to := strings.ToLower(ctx.GetArgs().Get(0).AsString())
-	from := strings.ToLower(ctx.GetArgs().Get(1).AsString())
+	// parse args, quoted args are one arg
+	args := ctx.GetArgs()
+
+	to := strings.ToLower(args[0])
+	from := strings.ToLower(strings.Join(args[1:], " "))
 
 	e := embed.NewSuccessEmbed(ctx)
 

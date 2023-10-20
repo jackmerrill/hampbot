@@ -10,6 +10,9 @@ import (
 type MessageEditListener struct{}
 
 func (l *MessageEditListener) Exec(s *discordgo.Session, e *discordgo.MessageUpdate) {
+	if e.Author.Bot {
+		return
+	}
 	var old discordgo.Message
 	fields := []*discordgo.MessageEmbedField{
 		{

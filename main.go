@@ -99,6 +99,9 @@ func main() {
 	handler.Register(&studentlife.Where{})
 	log.Debug("Registered where command")
 
+	handler.Register(&fun.MetricTime{})
+	log.Debug("Registered metrictime command")
+
 	log.Info("Registered all commands")
 
 	log.Info("Setting up activities...")

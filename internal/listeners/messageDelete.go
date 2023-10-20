@@ -28,6 +28,10 @@ func (l *MessageDeleteListener) Exec(s *discordgo.Session, e *discordgo.MessageD
 		msg.ChannelID = e.ChannelID
 	}
 
+	if msg.Author.Bot {
+		return
+	}
+
 	fields = append(fields, &discordgo.MessageEmbedField{
 		Name:   "Channel",
 		Value:  fmt.Sprintf("<#%s>", e.ChannelID),
