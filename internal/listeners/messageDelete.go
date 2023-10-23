@@ -38,6 +38,14 @@ func (l *MessageDeleteListener) Exec(s *discordgo.Session, e *discordgo.MessageD
 		Inline: true,
 	})
 
+	var image *discordgo.MessageEmbedImage
+
+	if len(msg.Attachments) > 0 {
+		image = &discordgo.MessageEmbedImage{
+			URL: msg.Attachments[0].URL,
+		}
+	}
+
 	_, err := s.ChannelMessageSendComplex(CHANNEL_ID, &discordgo.MessageSend{
 		Content: "Message deleted",
 		Embed: &discordgo.MessageEmbed{
@@ -45,6 +53,7 @@ func (l *MessageDeleteListener) Exec(s *discordgo.Session, e *discordgo.MessageD
 			Description: msg.Content,
 			Fields:      fields,
 			Color:       0xff0000,
+			Image:       image,
 		},
 	})
 	if err != nil {

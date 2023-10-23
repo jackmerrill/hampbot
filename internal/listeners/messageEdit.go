@@ -43,11 +43,20 @@ func (l *MessageEditListener) Exec(s *discordgo.Session, e *discordgo.MessageUpd
 		Inline: false,
 	})
 
+	var image *discordgo.MessageEmbedImage
+
+	if len(e.Attachments) > 0 {
+		image = &discordgo.MessageEmbedImage{
+			URL: e.Attachments[0].URL,
+		}
+	}
+
 	_, err := s.ChannelMessageSendComplex(CHANNEL_ID, &discordgo.MessageSend{
 		Embed: &discordgo.MessageEmbed{
 			Title:  "Message edited",
 			Fields: fields,
 			Color:  0xffff00,
+			Image:  image,
 		},
 	})
 
