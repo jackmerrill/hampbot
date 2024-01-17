@@ -21,6 +21,7 @@ require (
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/golang/geo v0.0.0-20230421003525-6adc56603217 // indirect
 	github.com/google/go-querystring v1.0.0 // indirect
+	github.com/google/uuid v1.5.0
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/jackmerrill/go-mapbox v0.4.5 // indirect
 	github.com/jackmerrill/hamp-api v0.0.0-20230818235104-8d222c9674c9 // indirect

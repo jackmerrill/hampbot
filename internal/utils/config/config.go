@@ -27,6 +27,9 @@ var (
 	HampAPIHost = "api.hamp.sh"
 	// HampAPIHost = "localhost:1323"
 	// HampAPI = "http://localhost:1323"
+
+	VerifiedRoleId     = "1020858770659745844"
+	StaffFacultyRoleId = "1183920480361648228"
 )
 
 var (

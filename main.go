@@ -102,6 +102,10 @@ func main() {
 	handler.Register(&fun.MetricTime{})
 	log.Debug("Registered metrictime command")
 
+	handler.Register(&util.VerifyCommand{})
+	go util.StartWebserver(session)
+	log.Debug("Registered verify command")
+
 	log.Info("Registered all commands")
 
 	log.Info("Setting up activities...")
