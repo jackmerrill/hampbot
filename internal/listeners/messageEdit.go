@@ -55,8 +55,12 @@ func (l *MessageEditListener) Exec(s *discordgo.Session, e *discordgo.MessageUpd
 		Embed: &discordgo.MessageEmbed{
 			Title:  "Message edited",
 			Fields: fields,
-			Color:  0xffff00,
-			Image:  image,
+			Description: fmt.Sprintf(
+				"[Jump to message](https://discordapp.com/channels/%s/%s/%s)",
+				e.GuildID, e.ChannelID, e.ID,
+			),
+			Color: 0xffff00,
+			Image: image,
 		},
 	})
 
