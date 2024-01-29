@@ -145,13 +145,17 @@ func (c *PVTA) Exec(ctx shireikan.Context) error {
 				return err
 			}
 
-			mapCtx.AddObject(
-				sm.NewMarker(
-					s2.LatLngFromDegrees(vehicle.Latitude, vehicle.Longitude),
-					color.RGBA{R: rgb.Red, G: rgb.Green, B: rgb.Blue, A: 255},
-					16.0,
-				),
+			marker := sm.NewMarker(
+				s2.LatLngFromDegrees(vehicle.Latitude, vehicle.Longitude),
+				color.RGBA{R: rgb.Red, G: rgb.Green, B: rgb.Blue, A: 255},
+				16.0,
 			)
+
+			marker.Label = fmt.Sprintf("%s (%s)", vehicle.Destination, vehicle.Direction)
+			marker.LabelColor = color.RGBA{R: 0, G: 0, B: 0, A: 255}
+			marker.LabelYOffset = 3
+
+			mapCtx.AddObject(marker)
 		}
 
 		img, err := mapCtx.Render()
