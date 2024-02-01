@@ -127,12 +127,16 @@ func main() {
 
 	deleteHandler := &listeners.MessageDeleteListener{}
 	editHandler := &listeners.MessageEditListener{}
+	reactAddHandler := &listeners.MessageReactAddListener{}
+	reactRemoveHandler := &listeners.MessageReactRemoveListener{}
 
 	session.AddHandler(func(s *discordgo.Session, e *discordgo.MessageCreate) {
 		config.MessageLog[e.ID] = *e.Message
 	})
 	session.AddHandler(deleteHandler.Exec)
 	session.AddHandler(editHandler.Exec)
+	session.AddHandler(reactAddHandler.Exec)
+	session.AddHandler(reactRemoveHandler.Exec)
 
 	handler.Setup(session)
 
