@@ -10,7 +10,7 @@ import (
 type MessageReactAddListener struct{}
 
 const STARBOARD_CHANNEL_ID = "1202408436969766982"
-const STARBOARD_THRESHOLD = 1
+const STARBOARD_THRESHOLD = 3
 
 func (l *MessageReactAddListener) Exec(s *discordgo.Session, e *discordgo.MessageReactionAdd) {
 	if e.MessageReaction.Emoji.Name == "⭐" {
