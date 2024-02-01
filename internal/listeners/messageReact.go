@@ -12,6 +12,8 @@ type MessageReactAddListener struct{}
 const STARBOARD_CHANNEL_ID = "1202408436969766982"
 const STARBOARD_THRESHOLD = 3
 
+// https://discord.com/channels/936651575684915201/936651577048051738/1202417331146465311
+
 func (l *MessageReactAddListener) Exec(s *discordgo.Session, e *discordgo.MessageReactionAdd) {
 	if e.MessageReaction.Emoji.Name == "⭐" {
 		msg, err := s.ChannelMessage(e.MessageReaction.ChannelID, e.MessageReaction.MessageID)
@@ -42,7 +44,7 @@ func (l *MessageReactAddListener) Exec(s *discordgo.Session, e *discordgo.Messag
 								Name:    msg.Author.Username,
 								IconURL: msg.Author.AvatarURL(""),
 							},
-							Description: fmt.Sprintf("%s\n\n[Jump to message](https://discordapp.com/channels/%s/%s/%s)", msg.Content, msg.GuildID, msg.ChannelID, msg.ID),
+							Description: fmt.Sprintf("%s\n\n[Jump to message](https://discordapp.com/channels/%s/%s/%s)", msg.Content, e.MessageReaction.GuildID, e.MessageReaction.ChannelID, e.MessageReaction.MessageID),
 							Image:       image,
 							Footer: &discordgo.MessageEmbedFooter{
 								Text: fmt.Sprintf("ID: %s", msg.ID),
