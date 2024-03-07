@@ -113,6 +113,8 @@ func (c *Laundry) Exec(ctx shireikan.Context) error {
 			embed.AddField(fmt.Sprintf("%s - %s", machine.Name, machine.Type), fmt.Sprintf(":red_circle: **Status:** %s", machine.Status), false)
 		} else if machine.Status == "End of cycle" {
 			embed.AddField(fmt.Sprintf("%s - %s", machine.Name, machine.Type), fmt.Sprintf(":blue_circle: **Status:** %s", machine.Status), false)
+		} else if machine.Status == "Out of order" {
+			embed.AddField(fmt.Sprintf("%s - %s", machine.Name, machine.Type), fmt.Sprintf(":white_circle: **Status:** %s", machine.Status), false)
 		} else {
 			embed.AddField(fmt.Sprintf("%s - %s", machine.Name, machine.Type), fmt.Sprintf(":yellow_circle: **Status:** %s\n:alarm_clock: **Time Remaining:** %s", machine.Status, config.ConvertTimestampToDiscordTimestampWithFormat(*machine.EstimatedTime, "R")), false)
 		}
