@@ -17,7 +17,7 @@ var (
 
 var (
 	// BotPrefix is the prefix used for bot commands.
-	BotPrefix = "!"
+	BotPrefix = ">>"
 
 	// BotGuild is the ID of the guild the bot is running on.
 	BotGuild = "936651575684915201"

@@ -8,11 +8,13 @@ import (
 	"time"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/go-co-op/gocron/v2"
 	"github.com/jackmerrill/hampbot/internal/commands/fun"
 	studentlife "github.com/jackmerrill/hampbot/internal/commands/studentlife"
 	util "github.com/jackmerrill/hampbot/internal/commands/util"
 	"github.com/jackmerrill/hampbot/internal/listeners"
 	"github.com/jackmerrill/hampbot/internal/utils/config"
+	"github.com/jackmerrill/hampbot/internal/utils/dcmenu"
 	"github.com/jackmerrill/hampbot/internal/utils/embed"
 	"github.com/zekroTJA/shireikan"
 
@@ -141,4 +143,38 @@ func main() {
 	handler.Setup(session)
 
 	log.Info("Bot is now running. Press CTRL-C to exit.")
+
+	s, err := gocron.NewScheduler()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	dcMenuJob, err := s.NewJob(gocron.DailyJob(1, gocron.NewAtTimes(gocron.NewAtTime(8, 0, 0))), gocron.NewTask(func() {
+		dcmenu.Run(session)
+	}))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Info("Starting daily menu job...")
+
+	s.Start()
+
+	err = dcMenuJob.RunNow()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// block until you are ready to shut down
+	select {
+	case <-time.After(time.Minute):
+	}
+
+	// when you're done, shut it down
+	err = s.Shutdown()
+	if err != nil {
+		// handle error
+	}
 }
