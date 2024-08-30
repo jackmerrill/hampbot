@@ -41,11 +41,18 @@ func Run(session *discordgo.Session) {
 		panic(err)
 	}
 
-	var todaysMenu *Meal
+	if menu == nil {
+		panic("menu is nil")
+	}
 
-	for i, v := range *menu {
-		if v.Date == time.Now().Format("1/2/2006") {
-			todaysMenu = &(*menu)[i]
+	refMenu := *menu
+
+	var todaysMenu Meal
+	todaysDate := time.Now().Format("1/2/2006")
+
+	for i, v := range refMenu {
+		if v.Date == todaysDate {
+			todaysMenu = refMenu[i]
 			break
 		}
 	}
@@ -80,12 +87,15 @@ func Run(session *discordgo.Session) {
 	})
 
 	// Send the Menu to the channel
-	_, err = session.ChannelMessageSendEmbed("1016558809667350528", &discordgo.MessageEmbed{
-		Title:  fmt.Sprintf("🍕 **Menu for %s**", (*menu)[0].Date),
+	_, err = session.ChannelMessageSendEmbed("1142231837331181678", &discordgo.MessageEmbed{
+		Title:  fmt.Sprintf("🍕 **Menu for %s**", todaysMenu.Date),
 		Fields: fields,
 		Color:  0x00ff00,
 	})
 
+	if err != nil {
+		panic(err)
+	}
 }
 
 func ParseWebsite() (*string, error) {

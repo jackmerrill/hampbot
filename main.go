@@ -149,9 +149,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	dcMenuJob, err := s.NewJob(gocron.DailyJob(1, gocron.NewAtTimes(gocron.NewAtTime(8, 0, 0))), gocron.NewTask(func() {
-		dcmenu.Run(session)
-	}))
+	dcMenuJob, err := s.NewJob(
+		gocron.DailyJob(1, gocron.NewAtTimes(gocron.NewAtTime(8, 0, 0))),
+		gocron.NewTask(func() {
+			dcmenu.Run(session)
+		}),
+	)
 
 	if err != nil {
 		log.Fatal(err)
@@ -165,16 +168,5 @@ func main() {
 
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	// block until you are ready to shut down
-	select {
-	case <-time.After(time.Minute):
-	}
-
-	// when you're done, shut it down
-	err = s.Shutdown()
-	if err != nil {
-		// handle error
 	}
 }
