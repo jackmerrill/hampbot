@@ -87,7 +87,7 @@ func Run(session *discordgo.Session) {
 	})
 
 	// Send the Menu to the channel
-	_, err = session.ChannelMessageSendEmbed("1142231837331181678", &discordgo.MessageEmbed{
+	_, err = session.ChannelMessageSendEmbed("1016558809667350528", &discordgo.MessageEmbed{
 		Title:  fmt.Sprintf("🍕 **Menu for %s**", todaysMenu.Date),
 		Fields: fields,
 		Color:  0x00ff00,
