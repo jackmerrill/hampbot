@@ -22,6 +22,8 @@ import (
 )
 
 func main() {
+	log.Info(os.Environ())
+
 	token := os.Getenv("TOKEN")
 
 	session, err := discordgo.New("Bot " + token)
@@ -160,13 +162,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Info("Starting daily menu job...")
+	if os.Getenv("ENV") != "development" {
+		log.Info("Starting daily menu job...")
 
-	s.Start()
+		s.Start()
 
-	err = dcMenuJob.RunNow()
+		err = dcMenuJob.RunNow()
 
-	if err != nil {
-		log.Fatal(err)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }

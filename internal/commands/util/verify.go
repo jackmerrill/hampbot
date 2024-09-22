@@ -89,6 +89,11 @@ func (c *VerifyCommand) Exec(ctx shireikan.Context) error {
 
 	code := uuid.New().String()
 
+	m, err := ctx.GetSession().ChannelMessageSendComplex(ctx.GetChannel().ID, &discordgo.MessageSend{
+		Reference: ctx.GetMessage().Reference(),
+		Embed:     embed.NewWarningEmbed(ctx).SetTitle("Sending Verification Email").SetDescription("Please wait...").MessageEmbed,
+	})
+
 	err = SendEmail([]string{email}, code, ctx.GetUser())
 
 	if err != nil {
@@ -98,9 +103,10 @@ func (c *VerifyCommand) Exec(ctx shireikan.Context) error {
 	// expires in 5 minutes
 	expires := time.Now().Add(time.Minute * 5)
 
-	m, err := ctx.GetSession().ChannelMessageSendComplex(ctx.GetChannel().ID, &discordgo.MessageSend{
-		Reference: ctx.GetMessage().Reference(),
-		Embed:     embed.NewSuccessEmbed(ctx).SetTitle("Sent Verification Email").SetDescription("Waiting for you to verify...").AddField("Expires", fmt.Sprintf("<t:%d:R>", expires.Unix()), false).MessageEmbed,
+	ctx.GetSession().ChannelMessageEditComplex(&discordgo.MessageEdit{
+		ID:      m.ID,
+		Channel: ctx.GetChannel().ID,
+		Embed:   embed.NewSuccessEmbed(ctx).SetTitle("Sent Verification Email").SetDescription("Waiting for you to verify...").AddField("Expires", fmt.Sprintf("<t:%d:R>", expires.Unix()), false).MessageEmbed,
 	})
 
 	if err != nil {
@@ -219,13 +225,21 @@ func SendEmail(to []string, code string, discordUser *discordgo.User) error {
 
 	buf := new(bytes.Buffer)
 
-	err = tmpl.Execute(buf, struct {
+	data := struct {
 		Code            string
 		DiscordUserName string
+		BaseUrl         string
 	}{
 		Code:            code,
 		DiscordUserName: discordUser.Username,
-	})
+		BaseUrl:         "http://localhost:8080",
+	}
+
+	if os.Getenv("ENV") != "development" {
+		data.BaseUrl = "https://hampbot.fly.dev"
+	}
+
+	err = tmpl.Execute(buf, data)
 
 	if err != nil {
 		return err
