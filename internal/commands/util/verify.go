@@ -106,7 +106,7 @@ func (c *VerifyCommand) Exec(ctx shireikan.Context) error {
 	ctx.GetSession().ChannelMessageEditComplex(&discordgo.MessageEdit{
 		ID:      m.ID,
 		Channel: ctx.GetChannel().ID,
-		Embed:   embed.NewSuccessEmbed(ctx).SetTitle("Sent Verification Email").SetDescription("Waiting for you to verify...").AddField("Expires", fmt.Sprintf("<t:%d:R>", expires.Unix()), false).MessageEmbed,
+		Embed:   embed.NewSuccessEmbed(ctx).SetTitle("Sent Verification Email").SetDescription("Waiting for you to verify...\n\n**Make sure to check your spam folder!**").AddField("Expires", fmt.Sprintf("<t:%d:R>", expires.Unix()), false).MessageEmbed,
 	})
 
 	if err != nil {
