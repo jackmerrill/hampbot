@@ -5,6 +5,7 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/jackmerrill/hampbot/internal/utils/config"
+	"github.com/sergi/go-diff/diffmatchpatch"
 )
 
 type MessageEditListener struct{}
@@ -27,21 +28,28 @@ func (l *MessageEditListener) Exec(s *discordgo.Session, e *discordgo.MessageUpd
 		},
 	}
 
+	diffText := ""
+
 	if o, ok := config.MessageLog[e.ID]; ok {
 		old = o
 
-		fields = append(fields, &discordgo.MessageEmbedField{
-			Name:   "Old",
-			Value:  old.Content,
-			Inline: false,
-		})
-	}
+		dmp := diffmatchpatch.New()
 
-	fields = append(fields, &discordgo.MessageEmbedField{
-		Name:   "New",
-		Value:  e.Content,
-		Inline: false,
-	})
+		fileAdmp, fileBdmp, dmpStrings := dmp.DiffLinesToChars(old.Content, e.Content)
+		diffs := dmp.DiffMain(fileAdmp, fileBdmp, false)
+		diffs = dmp.DiffCharsToLines(diffs, dmpStrings)
+		diffs = dmp.DiffCleanupSemantic(diffs)
+
+		for _, d := range diffs {
+			if d.Type == diffmatchpatch.DiffInsert {
+				diffText += fmt.Sprintf("+ %s\n", d.Text)
+			}
+			if d.Type == diffmatchpatch.DiffDelete {
+				diffText += fmt.Sprintf("- %s\n", d.Text)
+			}
+		}
+
+	}
 
 	var image *discordgo.MessageEmbedImage
 
@@ -56,8 +64,8 @@ func (l *MessageEditListener) Exec(s *discordgo.Session, e *discordgo.MessageUpd
 			Title:  "Message edited",
 			Fields: fields,
 			Description: fmt.Sprintf(
-				"[Jump to message](https://discordapp.com/channels/%s/%s/%s)",
-				e.GuildID, e.ChannelID, e.ID,
+				"[Jump to message](https://discordapp.com/channels/%s/%s/%s)\n\n```diff\n%s```",
+				e.GuildID, e.ChannelID, e.ID, diffText,
 			),
 			Color: 0xffff00,
 			Image: image,
